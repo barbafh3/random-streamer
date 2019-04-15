@@ -24,7 +24,7 @@ class GoogleAuth extends Component{
         } else {
             this.props.signOut();
         }
-    };
+    }
 
     onSignInClick = () => {
         this.auth.signIn();
