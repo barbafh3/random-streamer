@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import flv from 'flv.js';
 
 import history from '../../history'; 
 
@@ -8,16 +9,43 @@ import { clearStream } from '../../actions/sessionActions';
 
 class StreamShow extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.videoRef = React.createRef();
+    }
+
     async componentDidMount() {
-        if (this.props.session.streamId){
-            await this.props.fetchStream(this.props.session.streamId);     
+        const { streamId } = this.props.session
+        if (streamId){
+            await this.props.fetchStream(streamId);
+            this.buildPlayer();
         } else {
             history.push('/');
         }
+
+    }
+
+    componentDidUpdate(){
+        this.buildPlayer();
+    }
+
+    buildPlayer(){
+        if (this.player || !this.props.stream){
+            return;
+        }
+        const { streamId } = this.props.session;
+        this.player = flv.createPlayer({
+            type: 'flv',
+            url: `http://localhost:8000/live/${streamId}.flv` 
+        });
+        this.player.attachMediaElement(this.videoRef.current);
+        this.player.load();
     }
 
     componentWillUnmount() {
         this.props.clearStream();
+        if (this.player) { this.player.destroy(); }
     }
 
     render() {
@@ -27,6 +55,11 @@ class StreamShow extends Component {
         const { title, description } = this.props.stream;
         return (
             <div>
+                <video 
+                    ref={this.videoRef} 
+                    style={{ width: '100%' }}
+                    controls
+                />
                 <h1>{title}</h1>
                 <h5>{description}</h5>
             </div>

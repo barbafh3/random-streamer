@@ -87,11 +87,8 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(
-    mapStateToProps, 
-    { 
+export default connect(mapStateToProps, { 
         fetchStreams,
         provideStream,
         clearStream
-    })
-(StreamList);
+})(StreamList);
