@@ -5,9 +5,18 @@ import authReducer from './authReducer';
 import streamReducer from './streamReducer';
 import sessionReducer from './sessionReducer';
 
+// export default combineReducers({
+//     auth: authReducer,
+//     form: formReducer,
+//     streams: streamReducer,
+//     session: sessionReducer
+// });
+
 export default combineReducers({
-    auth: authReducer,
     form: formReducer,
     streams: streamReducer,
-    session: sessionReducer
+    session: combineReducers({
+        auth: authReducer,
+        provider: sessionReducer
+    })
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
 
-import 'semantic-ui-css/semantic.min.css';
+import 'fomantic-ui-css/semantic.min.css';
 
 import StreamCreate from './streams/StreamCreate';
 import StreamEdit from './streams/StreamEdit';

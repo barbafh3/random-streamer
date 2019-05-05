@@ -17,9 +17,12 @@ class StreamEdit extends Component {
         }
     }
 
+    componentWillUnmount(){
+        this.props.clearStream();
+    }
+
     onSubmit = formValues => {
         this.props.editStream(this.props.session.streamId, formValues);
-        this.props.clearStream();
         history.push('/');
     }
 
@@ -40,10 +43,10 @@ class StreamEdit extends Component {
     }
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
     return {
-        stream: state.streams[state.session.streamId],
-        session: state.session
+        stream: state.streams[state.session.provider.streamId],
+        session: state.session.provider
     }
 };
 
